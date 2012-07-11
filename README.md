@@ -1,5 +1,7 @@
 # OAuthRequest
 
+[![Build Status](https://secure.travis-ci.org/bytespider/OAuthRequest.png?branch=master)](http://travis-ci.org/bytespider/OAuthRequest)
+
 OAuthRequest is a W3C compatable XMLHttpRequest object for signing OAuth requests. Designed for use with jsOAuth 2.
 
 ## Getting Started
