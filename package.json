@@ -28,6 +28,9 @@
   "scripts": {
     "test": "grunt test"
   },
+  "dependencies": {
+    "w3c-xmlhttprequest": "1.x"
+  },
   "devDependencies": {
     "grunt": "~0.3.11"
   },
