@@ -2,23 +2,23 @@
   "name": "OAuthRequest",
   "description": "jsOAuth's submodule for signing http requests",
   "version": "2.0.0",
-  "homepage": "https://github.com/bytespider/jsOAuth",
+  "homepage": "https://github.com/bytespider/OAuthRequest",
   "author": {
     "name": "Rob Griffiths",
     "email": "rob@bytespider.eu",
     "url": "http://bytespider.eu"
   },
-  /*"repository": {
+  "repository": {
     "type": "git",
-    "url": "git@github.com:bytespider/jsOAuth.git"
-  },*/
+    "url": "git@github.com:bytespider/OAuthRequest.git"
+  },
   "bugs": {
-    "url": "https://github.com/bytespider/jsOAuth/issues"
+    "url": "https://github.com/bytespider/OAuthRequest/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/bytespider/jsOAuth/blob/master/LICENSE-MIT"
+      "url": "https://github.com/bytespider/OAuthRequest/blob/master/LICENSE-MIT"
     }
   ],
   "main": "lib/Request",
