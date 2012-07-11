@@ -20,7 +20,6 @@ xhr.addEventListener("readystatechange", function (event) {
 });
 
 xhr.send(null);
-
 ```
 
 ## Documentation
