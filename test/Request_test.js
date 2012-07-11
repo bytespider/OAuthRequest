@@ -38,6 +38,12 @@ exports.signedRequest = function (test) {
     test.expect(1);
     var xhr = new OAuthRequest();
 
+    xhr.request.send = function (data) {
+        this.readyState = this.DONE;
+        this.status = 200;
+        this.dispatchEvent({type: 'readystatechange'});
+    };
+
     xhr.applicationKey = "";
     xhr.applicationSecret = "";
     xhr.accessTokenKey = "";
