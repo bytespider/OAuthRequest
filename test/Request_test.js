@@ -1,5 +1,74 @@
 var OAuthRequest = require("../lib/Request.js");
 
+// Fake XHR for mocking Ajax Requests & Responses
+function FakeXMLHttpRequest() {
+    this.requestHeaders = {};
+
+    this.open = function() {
+        this.method = arguments[0];
+        this.url = arguments[1];
+        this.readyState = 1;
+    };
+
+    this.setRequestHeader = function(header, value) {
+        this.requestHeaders[header] = value;
+    };
+
+    this.abort = function() {
+        this.readyState = 0;
+    };
+
+    this.readyState = 0;
+
+    this.onreadystatechange = function(isTimeout) {
+    };
+
+    this.status = null;
+
+    this.send = function(data) {
+        this.params = data;
+        this.readyState = 2;
+    };
+
+    this.getResponseHeader = function(name) {
+        return this.responseHeaders[name];
+    };
+
+    this.getAllResponseHeaders = function() {
+        var responseHeaders = [];
+        for (var i in this.responseHeaders) {
+            if (this.responseHeaders.hasOwnProperty(i)) {
+                responseHeaders.push(i + ': ' + this.responseHeaders[i]);
+            }
+        }
+        return responseHeaders.join('\r\n');
+    };
+
+    this.responseText = null;
+
+    this.response = function(response) {
+        this.status = response.status;
+        this.responseText = response.responseText || "";
+        this.readyState = 4;
+        this.responseHeaders = response.responseHeaders || {"Content-type": response.contentType || "application/json" };
+
+        this.onreadystatechange();
+    };
+
+    this.responseTimeout = function() {
+        this.readyState = 4;
+        this.onreadystatechange('timeout');
+    };
+
+    this.addEventListener = function (event, listener) {
+        this.onreadystatechange = listener;
+    };
+
+    return this;
+}
+
+var fakexhr = new FakeXMLHttpRequest();
+
 function isInstanceOf(value, expected) {
     return value instanceof expected;
 }
@@ -22,27 +91,30 @@ exports.request = function (test) {
     test.expect(1);
 
     var xhr = new OAuthRequest();
+    xhr.request = fakexhr;
+    xhr.request.headers = {};
+
     xhr.open("GET", "http://www.google.co.uk", true);
 
     xhr.addEventListener("readystatechange", function (event) {
-        if (this.readyState === this.DONE && this.status >= 200) {
+        if (xhr.readyState === xhr.DONE && xhr.status == 200) {
             test.ok(true, "Request completed");
             test.done();
         }
     });
 
     xhr.send(null);
+    xhr.request.response({
+        status: 200
+    });
 };
 
 exports.signedRequest = function (test) {
     test.expect(1);
-    var xhr = new OAuthRequest();
 
-    xhr.request.send = function (data) {
-        this.readyState = this.DONE;
-        this.status = 200;
-        this.dispatchEvent({type: 'readystatechange'});
-    };
+    var xhr = new OAuthRequest();
+    xhr.request = fakexhr;
+    xhr.request.headers = {};
 
     xhr.applicationKey = "";
     xhr.applicationSecret = "";
@@ -52,13 +124,17 @@ exports.signedRequest = function (test) {
     xhr.open("GET", "http://api.twitter.com/1/statuses/home_timeline.json", true);
 
     xhr.addEventListener("readystatechange", function (event) {
-        if (this.readyState === this.DONE && this.status >= 200) {
+        if (xhr.readyState === xhr.DONE && xhr.status == 200) {
             test.ok(true, "Request completed");
             test.done();
         }
     });
 
+
     xhr.send(null);
+    xhr.request.response({
+        status: 200
+    });
 };
 
 /*
