@@ -36,13 +36,12 @@ exports.request = function (test) {
 
 exports.signedRequest = function (test) {
     test.expect(1);
-    var env = require("./env");
     var xhr = new OAuthRequest();
 
-    xhr.applicationKey = env.twitter.applicationKey;
-    xhr.applicationSecret = env.twitter.applicationSecret;
-    xhr.accessTokenKey = env.twitter.accessTokenKey;
-    xhr.accessTokenSecret = env.twitter.accessTokenSecret;
+    xhr.applicationKey = "";
+    xhr.applicationSecret = "";
+    xhr.accessTokenKey = "";
+    xhr.accessTokenSecret = "";
 
     xhr.open("GET", "http://api.twitter.com/1/statuses/home_timeline.json", true);
 
